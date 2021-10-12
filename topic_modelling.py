@@ -37,7 +37,7 @@ def top_words(gsdmm, cluster_word_distribution, top_cluster, values):
         print("\nCluster %s : %s"%(cluster,sort_dicts))
     return
 
-def create_topics_dataframe(data_text,  mgp, threshold, topic_dict, lemma_text):
+def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_text):
     result = pd.DataFrame(columns=['Text', 'Topic', 'Lemma-text'])
     for i, text in enumerate(data_text):
         result.at[i, 'Text'] = text
@@ -49,7 +49,7 @@ def create_topics_dataframe(data_text,  mgp, threshold, topic_dict, lemma_text):
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess):
+def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd):
     df = data.iloc[:, 0]
 
     # change text abbreviations to original word
@@ -87,7 +87,7 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess):
         topic_dict[topic_num]=topic_names[i]
 
     # create dataframe with topic
-    result = create_topics_dataframe(data_text=df1, mgp=gsdmm, threshold=0.3, topic_dict=topic_dict, lemma_text=reviews_lemmatized)
+    result = create_topics_dataframe(pd, data_text=df1, mgp=gsdmm, threshold=0.3, topic_dict=topic_dict, lemma_text=reviews_lemmatized)
     result['Lemma_text'] = result['Lemma-text'].apply(lambda row: ' '.join(row))
     result = result.drop('Lemma-text', axis=1)
 
