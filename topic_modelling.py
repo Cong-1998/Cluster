@@ -28,10 +28,10 @@ def topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess):
     top_index = doc_count.argsort()[-15:][::-1]
 
     # show the top 20 words in term frequency for each cluster 
-    top_words(gsdmm.cluster_word_distribution, top_index, 20, gsdmm)
+    top_words(gsdmm, gsdmm.cluster_word_distribution, top_index, 20)
     return top_index, gsdmm
 
-def top_words(cluster_word_distribution, top_cluster, values, gsdmm):
+def top_words(gsdmm, cluster_word_distribution, top_cluster, values):
     for cluster in top_cluster:
         sort_dicts =sorted(gsdmm.cluster_word_distribution[cluster].items(), key=lambda k: k[1], reverse=True)[:values]
         print("\nCluster %s : %s"%(cluster,sort_dicts))
