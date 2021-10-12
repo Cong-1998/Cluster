@@ -51,7 +51,7 @@ def top_words(cluster_word_distribution, top_cluster, values):
         print("\nCluster %s : %s"%(cluster,sort_dicts))
     return
 
-def create_topics_dataframe(data_text=df,  mgp=gsdmm, threshold=0.3, topic_dict=topic_dict, lemma_text=reviews_lemmatized):
+def create_topics_dataframe(data_text=df1,  mgp=gsdmm, threshold=0.3, topic_dict=topic_dict, lemma_text=reviews_lemmatized):
     result = pd.DataFrame(columns=['Text', 'Topic', 'Lemma-text'])
     for i, text in enumerate(data_text):
         result.at[i, 'Text'] = text
