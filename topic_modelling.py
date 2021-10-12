@@ -1,6 +1,5 @@
 
-
-def token(senten):
+def token(senten, word_tokenize):
     results = []
     for sentence in senten:
         results.append(word_tokenize(sentence))
@@ -50,22 +49,22 @@ def create_topics_dataframe(data_text,  mgp, threshold, topic_dict, lemma_text):
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def create_WordCloud(data, title=None):
+def create_WordCloud(data, title=None, WordCloud):
     wordcloud = WordCloud(width = 500, height = 500,
                           collocations = False,
                           background_color ='white',
                           min_font_size = 15
                           ).generate(" ".join(data.values))
                       
-    plt.figure(figsize = (5, 5), facecolor = None) 
-    plt.imshow(wordcloud, interpolation='bilinear') 
-    plt.axis("off") 
-    plt.tight_layout(pad = 0) 
-    plt.title(title,fontsize=20)
-    plt.show()
-    return
+    #plt.figure(figsize = (5, 5), facecolor = None) 
+    #plt.imshow(wordcloud, interpolation='bilinear') 
+    #plt.axis("off") 
+    #plt.tight_layout(pad = 0) 
+    #plt.title(title,fontsize=20)
+    #plt.show()
+    return wordcloud
 
-def processing(data, gensim):
+def processing(data, gensim, malaya, word_tokenize, WordCloud ):
     df = data.iloc[:, 0]
 
     # change text abbreviations to original word
@@ -90,7 +89,7 @@ def processing(data, gensim):
     list_dat = df2.values.tolist()
     
     # tokenize word
-    reviews_lemmatized = token(list_dat)
+    reviews_lemmatized = token(list_dat, word_tokenize)
 
     # GSDMM for the topic modeling
     top_index, gsdmm = topic_model(reviews_lemmatized, gensim)
@@ -108,6 +107,6 @@ def processing(data, gensim):
     result = result.drop('Lemma-text', axis=1)
 
     # create word clouds
-    wc1 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5")
-    wc2 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10")
+    wc1 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5", WordCloud)
+    wc2 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10", WordCloud)
     return wc1, wc2
