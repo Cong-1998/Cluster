@@ -92,16 +92,16 @@ def processing(data, gensim, malaya, word_tokenize, WordCloud ):
     result = result.drop('Lemma-text', axis=1)
 
     # create word clouds
-    wc1 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5", WordCloud)
-    wc2 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10", WordCloud)
+    wc1 = create_WordCloud(data_q = result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5", WordCloud)
+    wc2 = create_WordCloud(data_q = result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10", WordCloud)
     return wc1, wc2
 
-def create_WordCloud(data, title=None, WordCloud):
+def create_WordCloud(data_q, title=None, WordCloud):
     wordcloud = WordCloud(width = 500, height = 500,
                           collocations = False,
                           background_color ='white',
                           min_font_size = 15
-                          ).generate(" ".join(data.values))
+                          ).generate(" ".join(data_q.values))
                       
     #plt.figure(figsize = (5, 5), facecolor = None) 
     #plt.imshow(wordcloud, interpolation='bilinear') 
