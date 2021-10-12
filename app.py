@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import nltk
 from nltk.tokenize import word_tokenize
-from wordcloud import WordCloud 
+from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import gensim
 from gensim import corpora, models
@@ -23,7 +23,7 @@ def run():
     if file_upload is not None:
         data = pd.read_csv(file_upload, encoding='unicode_escape')
         st.write(data)
-        wc1, wc2 = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd)
+        wc1, wc2 = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud)
         st.image(wc1.to_image())
         st.image(wc2.to_image())
 
