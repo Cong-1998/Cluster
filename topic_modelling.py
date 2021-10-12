@@ -49,7 +49,7 @@ def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_te
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd):
+def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd,WordCloud):
     df = data.iloc[:, 0]
 
     # remove characters and turn to lower case
@@ -95,11 +95,11 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd):
     result = result.drop('Lemma-text', axis=1)
 
     # create word clouds
-    wc1 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5")
-    wc2 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10")
+    wc1 = create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5")
+    wc2 = create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10")
     return wc1, wc2
 
-def create_WordCloud(data, title=None):
+def create_WordCloud(WordCloud, data, title=None):
     wordcloud = WordCloud(width = 500, height = 500,
                           collocations = False,
                           background_color ='white',
