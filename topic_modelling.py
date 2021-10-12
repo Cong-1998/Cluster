@@ -1,17 +1,4 @@
-# import libraries
-import malaya
-import re
-import pandas as pd
-import numpy as np
-import nltk
-from nltk.tokenize import word_tokenize
-#LDA model using the gensim 
-#import gensim
-#from gensim import corpora, models
-#import spacy
-from wordcloud import WordCloud 
-import matplotlib.pyplot as plt
-from gsdmm import MovieGroupProcess
+
 
 def token(senten):
     results = []
@@ -19,7 +6,7 @@ def token(senten):
         results.append(word_tokenize(sentence))
     return results
 
-def topic_model(reviews_lemmatized):
+def topic_model(reviews_lemmatized, gensim):
     np.random.seed(0)
 
     # initialize GSDMM
@@ -78,7 +65,7 @@ def create_WordCloud(data, title=None):
     plt.show()
     return
 
-def processing(data):
+def processing(data, gensim):
     df = data.iloc[:, 0]
 
     # change text abbreviations to original word
@@ -106,7 +93,7 @@ def processing(data):
     reviews_lemmatized = token(list_dat)
 
     # GSDMM for the topic modeling
-    top_index, gsdmm = topic_model(reviews_lemmatized)
+    top_index, gsdmm = topic_model(reviews_lemmatized, gensim)
 
     # give name to the cluster
     topic_dict = {}
