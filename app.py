@@ -9,6 +9,8 @@ nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud 
 import matplotlib.pyplot as plt
+import gensim
+from gensim import corpora, models
 from gsdmm import MovieGroupProcess
 from topic_modelling import processing
 from topic_modelling import token
