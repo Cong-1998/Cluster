@@ -10,6 +10,11 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from gsdmm import MovieGroupProcess
 from topic_modelling import processing
+from topic_modelling import token
+from topic_modelling import topic_model
+from topic_modelling import top_words
+from topic_modelling import create_topics_dataframe
+from topic_modelling import create_WordCloud
 
 def run():
     file_upload = st.file_uploader("Upload csv file for predictions", type=["csv"])
