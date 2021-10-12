@@ -5,7 +5,6 @@ import re
 import pandas as pd
 import numpy as np
 import nltk
-nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud 
 import matplotlib.pyplot as plt
@@ -22,9 +21,9 @@ from topic_modelling import create_WordCloud
 def run():
     file_upload = st.file_uploader("Upload csv file for predictions", type=["csv"])
     if file_upload is not None:
-        data = pd.read_csv(file_upload, encoding='unicode_escape')
+        data = pd.read_csv(file_upload, encoding='utf8')
         st.write(data)
-        wc1, wc2 = processing(data)
+        wc1, wc2 = processing(data, gensim)
         st.image(wc1.to_image())
         st.image(wc2.to_image())
 
