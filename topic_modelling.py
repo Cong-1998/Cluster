@@ -42,7 +42,7 @@ def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_te
     for i, text in enumerate(data_text):
         result.at[i, 'Text'] = text
         result.at[i, 'Lemma-text'] = lemma_text[i]
-        prob = mgp.choose_best_label(reviews_lemmatized[i])
+        prob = mgp.choose_best_label(lemma_text[i])
         if prob[1] >= threshold:
             result.at[i, 'Topic'] = topic_dict[prob[0]]
         else:
@@ -51,6 +51,9 @@ def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_te
 
 def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd):
     df = data.iloc[:, 0]
+
+    # remove characters and turn to lower case
+    df = df.str.lower().str.replace('[^\w\s]','')
 
     # change text abbreviations to original word
     df1 = df.str.replace(r'\bx\b', 'tidak')
