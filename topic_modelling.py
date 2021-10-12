@@ -49,21 +49,6 @@ def create_topics_dataframe(data_text,  mgp, threshold, topic_dict, lemma_text):
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def create_WordCloud(data_q, title=None, WordCloud):
-    wordcloud = WordCloud(width = 500, height = 500,
-                          collocations = False,
-                          background_color ='white',
-                          min_font_size = 15
-                          ).generate(" ".join(data.values))
-                      
-    #plt.figure(figsize = (5, 5), facecolor = None) 
-    #plt.imshow(wordcloud, interpolation='bilinear') 
-    #plt.axis("off") 
-    #plt.tight_layout(pad = 0) 
-    #plt.title(title,fontsize=20)
-    #plt.show()
-    return wordcloud
-
 def processing(data, gensim, malaya, word_tokenize, WordCloud ):
     df = data.iloc[:, 0]
 
@@ -110,3 +95,18 @@ def processing(data, gensim, malaya, word_tokenize, WordCloud ):
     wc1 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5", WordCloud)
     wc2 = create_WordCloud(result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10", WordCloud)
     return wc1, wc2
+
+def create_WordCloud(data, title=None, WordCloud):
+    wordcloud = WordCloud(width = 500, height = 500,
+                          collocations = False,
+                          background_color ='white',
+                          min_font_size = 15
+                          ).generate(" ".join(data.values))
+                      
+    #plt.figure(figsize = (5, 5), facecolor = None) 
+    #plt.imshow(wordcloud, interpolation='bilinear') 
+    #plt.axis("off") 
+    #plt.tight_layout(pad = 0) 
+    #plt.title(title,fontsize=20)
+    #plt.show()
+    return wordcloud
