@@ -5,7 +5,7 @@ def token(senten, word_tokenize):
         results.append(word_tokenize(sentence))
     return results
 
-def topic_model(reviews_lemmatized, gensim):
+def topic_model(reviews_lemmatized, gensim, np):
     np.random.seed(0)
 
     # initialize GSDMM
@@ -49,7 +49,7 @@ def create_topics_dataframe(data_text,  mgp, threshold, topic_dict, lemma_text):
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def processing(data, gensim, malaya, word_tokenize, WordCloud ):
+def processing(data, gensim, malaya, word_tokenize, WordCloud, np):
     df = data.iloc[:, 0]
 
     # change text abbreviations to original word
@@ -77,7 +77,7 @@ def processing(data, gensim, malaya, word_tokenize, WordCloud ):
     reviews_lemmatized = token(list_dat, word_tokenize)
 
     # GSDMM for the topic modeling
-    top_index, gsdmm = topic_model(reviews_lemmatized, gensim)
+    top_index, gsdmm = topic_model(reviews_lemmatized, gensim, np)
 
     # give name to the cluster
     topic_dict = {}
