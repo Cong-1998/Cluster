@@ -49,7 +49,7 @@ def create_topics_dataframe(data_text,  mgp, threshold, topic_dict, lemma_text):
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def create_WordCloud(data, title=None, WordCloud):
+def create_WordCloud(data_q, title=None, WordCloud):
     wordcloud = WordCloud(width = 500, height = 500,
                           collocations = False,
                           background_color ='white',
