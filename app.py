@@ -19,7 +19,7 @@ from topic_modelling import create_WordCloud
 def run():
     file_upload = st.file_uploader("Upload csv file for predictions", type=["csv"])
     if file_upload is not None:
-        data = pd.read_csv(file_upload)
+        data = pd.read_csv(file_upload, encoding='utf8')
         st.write(data)
         wc1, wc2 = processing(data)
         st.image(wc1.to_image())
