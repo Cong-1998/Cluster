@@ -23,7 +23,7 @@ def run():
     if file_upload is not None:
         data = pd.read_csv(file_upload, encoding='unicode_escape')
         st.write(data)
-        wc1, wc2 = processing(data, gensim)
+        wc1, wc2 = processing(data, gensim, malaya, word_tokenize, WordCloud)
         st.image(wc1.to_image())
         st.image(wc2.to_image())
 
