@@ -28,14 +28,14 @@ def topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess, int_val):
     top_index = doc_count.argsort()[-int_val:][::-1]
 
     # show the top 20 words in term frequency for each cluster 
-    top_words(gsdmm, gsdmm.cluster_word_distribution, top_index, 15)
-    return top_index, gsdmm
+    ans = top_words(gsdmm, gsdmm.cluster_word_distribution, top_index, 15)
+    return top_index, gsdmm, ans
 
 def top_words(gsdmm, cluster_word_distribution, top_cluster, values):
     for cluster in top_cluster:
         sort_dicts =sorted(gsdmm.cluster_word_distribution[cluster].items(), key=lambda k: k[1], reverse=True)[:values]
-        print("\nCluster %s : %s"%(cluster,sort_dicts))
-    return
+        ans = "\nCluster %s : %s"%(cluster,sort_dicts)
+    return ans
 
 def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_text):
     result = pd.DataFrame(columns=['Text', 'Topic', 'Lemma-text'])
@@ -80,7 +80,7 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     reviews_lemmatized = token(list_dat, word_tokenize)
 
     # GSDMM for the topic modeling
-    top_index, gsdmm = topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess, int_val)
+    top_index, gsdmm, ans = topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess, int_val)
 
     # give name to the cluster
     topic_dict = {}
@@ -99,13 +99,13 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     wc = []
     for i in range(int_val):
         wc.append(create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in "+topic_names[i])))
-    return wc
+    return wc, ans
 
 def create_WordCloud(WordCloud, data, title=None):
-    wordcloud = WordCloud(width = 500, height = 500,
+    wordcloud = WordCloud(width = 400, height = 400,
                           collocations = False,
                           background_color ='white',
-                          min_font_size = 15
+                          min_font_size = 14
                           ).generate(" ".join(data.values))
                       
     #plt.figure(figsize = (5, 5), facecolor = None) 
