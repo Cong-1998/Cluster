@@ -44,58 +44,58 @@ class Toc:
         st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 
-def run():
+#def run():
     # hide menu bar
-    st.markdown(""" <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    </style> """, unsafe_allow_html=True)
+st.markdown(""" <style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style> """, unsafe_allow_html=True)
     
     # set up layout
-    padding = 1
-    st.markdown(f""" <style>
-        .reportview-container .main .block-container{{
-            padding-top: {padding}rem;
-            padding-right: {padding}rem;
-            padding-left: {padding}rem;
-            padding-bottom: {padding}rem;
-        }} </style> """, unsafe_allow_html=True)
+padding = 1
+st.markdown(f""" <style>
+    .reportview-container .main .block-container{{
+        padding-top: {padding}rem;
+        padding-right: {padding}rem;
+        padding-left: {padding}rem;
+        padding-bottom: {padding}rem;
+    }} </style> """, unsafe_allow_html=True)
 
     # set up title
-    st.title("GSDMM Topic Modeling")
-    st.write('\n')
+st.title("GSDMM Topic Modeling")
+st.write('\n')
 
     # set up sidebar
-    st.sidebar.header("Table of Content")
-    toc = Toc()
-    toc.placeholder()
+st.sidebar.header("Table of Content")
+toc = Toc()
+toc.placeholder()
 
     # upload file
-    toc.header("Upload csv file")
-    file_upload = st.file_uploader("", type=["csv"])
-    if file_upload is not None:
-        data = pd.read_csv(file_upload, encoding='unicode_escape')
-        st.write(data)
+toc.header("Upload csv file")
+file_upload = st.file_uploader("", type=["csv"])
+if file_upload is not None:
+    data = pd.read_csv(file_upload, encoding='unicode_escape')
+    st.write(data)
 
     # select cluster
-    toc.header("Select the number of clusters")
-    int_val = st.number_input('', min_value=1, max_value=30, value=5, step=1)
-    result = st.button("Run")
+toc.header("Select the number of clusters")
+int_val = st.number_input('', min_value=1, max_value=30, value=5, step=1)
+result = st.button("Run")
     
     # print word cloud
-    if result:
-        wc = []
-        st.write("Be patient, need to wait 1 to 2 minutes :smile:")
-        for i in range(int_val):
-            wc.append(processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val))
-            st.image(wc[i].to_image())
-        #st.image(wc2.to_image())
-    st.write('\n')
+if result:
+    wc = []
+    st.write("Be patient, need to wait 1 to 2 minutes :smile:")
+    for i in range(int_val):
+        wc.append(processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val))
+        st.image(wc[i].to_image())
+    #st.image(wc2.to_image())
+st.write('\n')
 
     # how to use
-    toc.header("How to Use")
-    st.write("Please upload csv file, which contain 1 column only.")
-    st.write("Blabla...")
+toc.header("How to Use")
+st.write("Please upload csv file, which contain 1 column only.")
+st.write("Blabla...")
 
-if __name__ == '__main__':
-    run()
+#if __name__ == '__main__':
+#    run()
