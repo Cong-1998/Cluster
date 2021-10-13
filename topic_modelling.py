@@ -96,8 +96,10 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     result = result.drop('Lemma-text', axis=1)
 
     # create word clouds
+    wc = []
     for i in range(int_val):
-        return create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in "+topic_names[i]))
+        wc.append(create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in "+topic_names[i])))
+        return wc
 
 def create_WordCloud(WordCloud, data, title=None):
     wordcloud = WordCloud(width = 500, height = 500,
