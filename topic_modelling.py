@@ -5,17 +5,17 @@ def token(senten, word_tokenize):
         results.append(word_tokenize(sentence))
     return results
 
-def topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess):
+def topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess, int_val):
     np.random.seed(0)
 
     # initialize GSDMM
-    gsdmm = MovieGroupProcess(K=15, alpha=0.1, beta=0.3, n_iters=15)
+    gsdmm = MovieGroupProcess(K=int_val, alpha=0.1, beta=0.3, n_iters=int_val)
 
     # create dictionary of all words in all documents
     dictionary = gensim.corpora.Dictionary(reviews_lemmatized)
 
     # filter extreme cases out of dictionary
-    dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
+    dictionary.filter_extremes(no_below=int_val, no_above=0.5, keep_n=100000)
 
     # create variable containing length of dictionary/vocab
     n_terms = len(dictionary)
@@ -25,10 +25,10 @@ def topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess):
     doc_count = np.array(gsdmm.cluster_doc_count)
 
     # topics sorted by the number of document they are allocated to
-    top_index = doc_count.argsort()[-15:][::-1]
+    top_index = doc_count.argsort()[-int_val:][::-1]
 
     # show the top 20 words in term frequency for each cluster 
-    top_words(gsdmm, gsdmm.cluster_word_distribution, top_index, 20)
+    top_words(gsdmm, gsdmm.cluster_word_distribution, top_index, 15)
     return top_index, gsdmm
 
 def top_words(gsdmm, cluster_word_distribution, top_cluster, values):
@@ -49,7 +49,7 @@ def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_te
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd,WordCloud):
+def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val):
     df = data.iloc[:, 0]
 
     # remove characters and turn to lower case
@@ -80,12 +80,13 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd,Wo
     reviews_lemmatized = token(list_dat, word_tokenize)
 
     # GSDMM for the topic modeling
-    top_index, gsdmm = topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess)
+    top_index, gsdmm = topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess, int_val)
 
     # give name to the cluster
     topic_dict = {}
-    topic_names = ['type 1', 'type 2', 'type 3', 'type 4', 'type 5', 'type 6', 'type 7', 'type 8', 'type 9', 
-                   'type 10', 'type 11', 'type 12', 'type 13', 'type 14', 'type 15']
+    topic_names = []
+    for i in range(int_val):
+        topic_names.append("type " + str(i+1))
     for i, topic_num in enumerate(top_index):
         topic_dict[topic_num]=topic_names[i]
 
@@ -95,9 +96,8 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd,Wo
     result = result.drop('Lemma-text', axis=1)
 
     # create word clouds
-    wc1 = create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == 'type 1'], title="Most used words in cluster 5")
-    wc2 = create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == 'type 2'], title="Most used words in cluster 10")
-    return wc1, wc2
+    for i in range(int_val):
+        return create_WordCloud(result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in "+topic_names[i]))
 
 def create_WordCloud(WordCloud, data, title=None):
     wordcloud = WordCloud(width = 500, height = 500,
