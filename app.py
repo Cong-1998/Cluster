@@ -97,5 +97,7 @@ toc.header("How to Use")
 st.write("Please upload csv file, which contain 1 column only.")
 st.write("Blabla...")
 
+toc.generate()
+
 #if __name__ == '__main__':
 #    run()
