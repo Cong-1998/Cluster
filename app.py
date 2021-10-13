@@ -86,8 +86,8 @@ result = st.button("Run")
 if result:
     wc = []
     st.write("Be patient, need to wait 1 to 2 minutes :smile:")
-    for i in range(int_val):
-        wc.append(processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val))
+    wc = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val)
+    for i in range(len(wc)):
         st.image(wc[i].to_image())
     #st.image(wc2.to_image())
 st.write('\n')
