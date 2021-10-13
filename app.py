@@ -45,13 +45,13 @@ class Toc:
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 
 #def run():
-    # hide menu bar
+# hide menu bar
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 </style> """, unsafe_allow_html=True)
     
-    # set up layout
+# set up layout
 padding = 1
 st.markdown(f""" <style>
     .reportview-container .main .block-container{{
@@ -61,39 +61,40 @@ st.markdown(f""" <style>
         padding-bottom: {padding}rem;
     }} </style> """, unsafe_allow_html=True)
 
-    # set up title
+# set up title
 st.title("GSDMM Topic Modeling")
 st.write('\n')
 
-    # set up sidebar
+# set up sidebar
 st.sidebar.header("Table of Content")
 toc = Toc()
 toc.placeholder()
 
-    # upload file
+# upload file
 toc.header("Upload csv file")
 file_upload = st.file_uploader("", type=["csv"])
 if file_upload is not None:
     data = pd.read_csv(file_upload, encoding='unicode_escape')
     st.write(data)
 
-    # select cluster
+# select cluster
 toc.header("Select the number of clusters")
 int_val = st.number_input('', min_value=1, max_value=30, value=5, step=1)
 result = st.button("Run")
     
-    # print word cloud
+# print word cloud
 if result:
     wc = []
     st.write("Be patient, need to wait 1 to 2 minutes :smile:")
-    wc = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val)
+    wc, ans = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val)
+    st.write(ans)
     for i in range(len(wc)):
         st.markdown('Most used words in type '+str(i+1))
         st.image(wc[i].to_image())
-    #st.image(wc2.to_image())
+        st.write('\n')
 st.write('\n')
 
-    # how to use
+# how to use
 toc.header("How to Use")
 st.write("Please upload csv file, which contain 1 column only.")
 st.write("Blabla...")
