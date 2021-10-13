@@ -85,6 +85,7 @@ result = st.button("Run")
 # print word cloud
 if result:
     wc = []
+    ans = []
     st.write("Be patient, need to wait 1 to 2 minutes :smile:")
     wc, ans = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val)
     st.write(ans)
