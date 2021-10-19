@@ -8,8 +8,11 @@ import nltk
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import base64
 import gensim
 from gensim import corpora, models
+from streamlit_tags import st_tags, st_tags_sidebar
+from streamlit_player import st_player
 from gsdmm import MovieGroupProcess
 from topic_modelling import processing
 from topic_modelling import token
@@ -44,7 +47,6 @@ class Toc:
         st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 
-#def run():
 # hide menu bar
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
@@ -80,14 +82,28 @@ if file_upload is not None:
 # select cluster
 toc.header("Select the number of clusters")
 int_val = st.number_input('', min_value=1, max_value=30, value=5, step=1)
+
+# add stopword
+list_stop = []
+my_expander = st.expander(label='Advanced Setting')
+with my_expander:
+    st.subheader("[What is stopwords?](#stopwords)")
+    keywords = st_tags(
+        label='Enter Stopwords:',
+        text='Press enter to add more',
+        value=[],
+        key="aljnf")
+    st.write(keywords)
+    st.write("*Don't collapse this tab.")
+list_stop = keywords
+
+# run the program
 result = st.button("Run")
-    
-# print word cloud
 if result:
     wc = []
     ans = []
     st.write("Be patient, need to wait 1 to 2 minutes :smile:")
-    wc, ans = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val)
+    wc, ans = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val, list_stop)
     st.write(ans)
     for i in range(len(wc)):
         st.markdown('Most used words in type '+str(i+1))
@@ -97,10 +113,21 @@ st.write('\n')
 
 # how to use
 toc.header("How to Use")
-st.write("Please upload csv file, which contain 1 column only.")
-st.write("Blabla...")
+st.write("1. Please upload csv file and make sure your data are in first column.")
+st.write("*How to convert excel file to [csv file](#csv-file).")
+st.write("2. Option: You can expand Advanced Setting tab to add new [stopword](#stopwords).")
+st.write("3. Please select the number of clusters.")
+st.write("4. Please click the 'Run' button.")
+st.write('\n')
+
+st.subheader("CSV file")
+st.write('This video will teach you how to convert excel file to csv file.')
+# Embed a youtube video
+st_player("https://www.youtube.com/watch?v=IBbJzzj5r90")
+st.write('\n')
+
+st.subheader("Stopwords")
+st.write("Stopwords are the words which does not add much meaning to a sentence. They can safely be ignored without sacrificing the meaning of the sentence. For example, the words like ada, apa, dia etc.")
+st.write("*Here are [Malay stopwords](https://github.com/Cong-1998/Cluster/blob/main/malay_stopwords.txt).")
 
 toc.generate()
-
-#if __name__ == '__main__':
-#    run()
