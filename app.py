@@ -108,7 +108,7 @@ if result:
     wc, ans, final_df = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val, list_stop)
     
     # download labelled file
-    file = final_df.to_csv(index=False)
+    csv = final_df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # some strings
     linko= f'<a href="data:file/csv;base64,{b64}" download='+name+'>Download csv file</a>'
     st.markdown(linko, unsafe_allow_html=True)
