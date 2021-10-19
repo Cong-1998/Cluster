@@ -55,10 +55,10 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     df = data.iloc[:, 0]
 
     # remove characters and turn to lower case
-    df = df.str.lower().str.replace('[^\w\s]','')
+    df1 = df.str.lower().str.replace('[^\w\s]','')
 
     # change text abbreviations to original word
-    df1 = df.str.replace(r'\bx\b', 'tidak')
+    df1 = df1.str.replace(r'\bx\b', 'tidak')
     df1 = df1.str.replace(r'\btak\b', 'tidak')
     df1 = df1.str.replace(r'\borg\b', 'orang')
     df1 = df1.str.replace(r'\bdgn\b', 'dengan')
@@ -99,11 +99,14 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     result['Lemma_text'] = result['Lemma-text'].apply(lambda row: ' '.join(row))
     result = result.drop('Lemma-text', axis=1)
 
+    # create dataframe with label
+    final_df = pd.concat([df, result['Topic']], axis=1)
+
     # create word clouds
     wc = []
     for i in range(int_val):
         wc.append(create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in "+topic_names[i])))
-    return wc, ans
+    return wc, ans, final_df
 
 def create_WordCloud(WordCloud, data, title=None):
     wordcloud = WordCloud(width = 400, height = 400,
