@@ -51,7 +51,7 @@ def create_topics_dataframe(pd, data_text,  mgp, threshold, topic_dict, lemma_te
             result.at[i, 'Topic'] = 'Other'
     return result
 
-def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val):
+def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val, list_stop):
     df = data.iloc[:, 0]
 
     # remove characters and turn to lower case
@@ -73,6 +73,7 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
 
     # remove stopword
     stop_words = malaya.text.function.STOPWORDS
+    stop_words.update(list_stop)
     df2 = df1.apply(lambda x: ' '.join([word for word in x.split() if word not in (stop_words)]))
 
     # dataframe change to list
