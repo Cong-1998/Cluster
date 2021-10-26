@@ -89,10 +89,14 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     top_index, gsdmm, ans = topic_model(reviews_lemmatized, gensim, np, MovieGroupProcess, int_val)
 
     # give name to the cluster
-    topic_names = list(top_index)
+    list_topic = list(top_index)
     topic_dict = {}
+    topic_names = []
+    for i in range(len(list_topic)):
+        topic_names.append("Cluster " + str(list_topic[i]))
+
     for i, topic_num in enumerate(top_index):
-        topic_dict[topic_num]=list(top_index)[i]
+        topic_dict[topic_num]=topic_names[i]
 
     # create dataframe with topic
     result = create_topics_dataframe(pd, data_text=df1, mgp=gsdmm, threshold=0.3, topic_dict=topic_dict, lemma_text=reviews_lemmatized)
@@ -105,7 +109,7 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
     # create word clouds
     wc = []
     for i in range(int_val):
-        wc.append(create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in Cluster "+topic_names[i])))
+        wc.append(create_WordCloud(WordCloud, result['Lemma_text'].loc[result.Topic == topic_names[i]], title=("Most used words in "+topic_names[i])))
     return wc, ans, final_df
 
 def create_WordCloud(WordCloud, data, title=None):
