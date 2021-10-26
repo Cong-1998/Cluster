@@ -108,10 +108,11 @@ if result:
     wc = []
     ans = []
     st.write("Be patient, need to wait 1 to 2 minutes :smile:")
-    st.write("If raising error, please reduce the number of clusters :relaxed:")
+    st.write("If raising error, please reduce the number of clusters")
     wc, ans, final_df = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val, stopwords, list_stop)
 
     # download labelled file
+    st.write("Below is the labelled file, click it tp download.")
     csv = final_df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # some strings
     linko= f'<a href="data:file/csv;base64,{b64}" download='+name+'>Download csv file</a>'
