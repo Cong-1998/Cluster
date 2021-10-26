@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 import nltk
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+nltk.download('stopwords')
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import base64
@@ -89,9 +91,10 @@ int_val = st.number_input('', min_value=1, max_value=30, value=5, step=1)
 list_stop = []
 my_expander = st.expander(label='Advanced Setting')
 with my_expander:
-    st.subheader("[What is stopwords?](#stopwords)")
+    st.write("This tab is to remove stopwords.")
+    st.subheader("[What is stopwords](#stopwords) :question:")
     keywords = st_tags(
-        label='Enter Stopwords:',
+        label='Enter Stopwords: :point_down:',
         text='Press enter to add more',
         value=[],
         key="aljnf")
@@ -105,8 +108,9 @@ if result:
     wc = []
     ans = []
     st.write("Be patient, need to wait 1 to 2 minutes :smile:")
-    wc, ans, final_df = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val, list_stop)
-    
+    st.write("If raising error, please reduce the number of clusters :relaxed:")
+    wc, ans, final_df = processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, WordCloud, int_val, stopwords, list_stop)
+
     # download labelled file
     csv = final_df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # some strings
@@ -135,7 +139,7 @@ st_player("https://www.youtube.com/watch?v=IBbJzzj5r90")
 st.write('\n')
 
 st.subheader("Stopwords")
-st.write("Stopwords are the words which does not add much meaning to a sentence. They can safely be ignored without sacrificing the meaning of the sentence. For example, the words like ada, apa, dia etc.")
-st.write("*Here are [Malay stopwords](https://github.com/Cong-1998/Cluster/blob/main/malay_stopwords.txt).")
+st.write("Stopwords are the words which does not add much meaning to a sentence. They can safely be ignored without sacrificing the meaning of the sentence. For example, the words like ada, apa, dia, a, an, the etc.")
+st.write("*Here are [stopwords](https://github.com/Cong-1998/Cluster/blob/main/stopwords.txt). :point_left:")
 
 toc.generate()
