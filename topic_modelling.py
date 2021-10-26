@@ -90,11 +90,8 @@ def processing(data, gensim, malaya, word_tokenize, np, MovieGroupProcess, pd, W
 
     # give name to the cluster
     topic_dict = {}
-    topic_names = []
-    for i in range(int_val):
-        topic_names.append("type " + str(i+1))
     for i, topic_num in enumerate(top_index):
-        topic_dict[topic_num]=topic_names[i]
+        topic_dict[topic_num]=list(top_index)[i]
 
     # create dataframe with topic
     result = create_topics_dataframe(pd, data_text=df1, mgp=gsdmm, threshold=0.3, topic_dict=topic_dict, lemma_text=reviews_lemmatized)
@@ -116,11 +113,5 @@ def create_WordCloud(WordCloud, data, title=None):
                           background_color ='white',
                           min_font_size = 14
                           ).generate(" ".join(data.values))
-                      
-    #plt.figure(figsize = (5, 5), facecolor = None) 
-    #plt.imshow(wordcloud, interpolation='bilinear') 
-    #plt.axis("off") 
-    #plt.tight_layout(pad = 0) 
-    #plt.title(title,fontsize=20)
-    #plt.show()
+
     return wordcloud
