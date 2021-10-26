@@ -1,3 +1,4 @@
+\n
 a
 abang
 about
@@ -469,6 +470,7 @@ jawab
 jawaban
 jawabnya
 jd
+je
 jelas
 jelaskan
 jelaslah
@@ -570,6 +572,7 @@ kosong
 kpd
 ku
 kurang
+la
 lagi
 lagian
 lah
