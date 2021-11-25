@@ -115,9 +115,14 @@ if result:
     # download labelled file
     st.write("Below is the labelled file, click it tp download.")
     csv = final_df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()  # some strings
-    linko= f'<a href="data:file/csv;base64,{b64}" download='+name+'>Download csv file</a>'
-    st.markdown(linko, unsafe_allow_html=True)
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name=name,
+        mime='text/csv',
+    )
+    st.write('\n')
+    
     st.write(ans)
     for i in range(len(wc)):
         st.markdown('Most used words in type '+str(i+1))
